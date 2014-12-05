@@ -75,7 +75,7 @@ public class JdbcUserDao implements UserDao, InitializingBean
     
     @Override
     public List<UserShoes> getShoes(int user_id) {
-        String sql = "select distinct us.shoe_id, us.id, us.user_id, s.make, s.model, us.miles from user u, shoe s, user_shoes us " +
+        String sql = "select distinct us.id, us.shoe_id, us.id, us.user_id, s.make, s.model, s.year, us.miles, us.is_active from user u, shoe s, user_shoes us " +
                 "where u.id = ? and u.id = us.user_id and s.id = us.shoe_id and us.is_active = true";
 
         return jdbcTemplate.query(sql,  new Object[] { user_id }, new UserShoesMapper());
@@ -94,12 +94,14 @@ public class JdbcUserDao implements UserDao, InitializingBean
                 userShoes = map.get(shoeId);
                 if (userShoes == null) {  // new contact record
                     userShoes = new UserShoes();
-                    userShoes.setShoe_id(shoeId);
                     userShoes.setUserShoesId(rs.getInt("id"));
+                    userShoes.setShoeId(rs.getInt("shoe_id"));
                     userShoes.setUser_id(rs.getInt("user_id"));
                     userShoes.setMake(rs.getString("make"));
                     userShoes.setModel(rs.getString("model"));
+                    userShoes.setYear(rs.getInt("year"));
                     userShoes.setMiles(rs.getInt("miles"));
+                    userShoes.setIs_active(rs.getInt("is_active"));
                     map.put(shoeId, userShoes);
                 }
             }
@@ -121,7 +123,7 @@ public class JdbcUserDao implements UserDao, InitializingBean
     public void addMiles(UserShoes shoe) {
         String sql = "update USER_SHOES set miles = ? from USER u, USER_shoes us " +
     "where u.id = ? and u.id = us.user_id and us.shoe_id = ?, and us.id = ?";
-        jdbcTemplate.update(sql, new Object[] { shoe.getMiles(), shoe.getUser_id(), shoe.getShoe_id(),
+        jdbcTemplate.update(sql, new Object[] { shoe.getMiles(), shoe.getUser_id(), shoe.getShoeId(),
                 shoe.getUserShoesId()});
     }
 

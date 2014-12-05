@@ -19,6 +19,21 @@ public class User implements Serializable
         this.firstName = firstName;
         this.lastName = lastName;
     }
+    public User() {
+    	this.id = 0;
+    	this.firstName = "NotFound";
+    	this.lastName = "NotFound";
+    }
+    
+    /**
+     * Ctor to be used for user id's not found in the DB
+     * @param userId
+     */
+    public User(int userId) {
+    	this.id = userId;
+    	this.firstName = "NotFound";
+    	this.lastName = "NotFound";
+    }
 
     public List<UserShoes> getUserShoes()
     {
@@ -72,6 +87,9 @@ public class User implements Serializable
         sb.append("ID="+getId()+"\n");
         sb.append("FirstName="+getFirstName()+"\n");
         sb.append("lastName="+getLastName()+"\n");
+        for(UserShoes shoe: userShoes) {
+        	sb.append("shoe="+shoe.toString());
+        }
         sb.append("*****************************");
          
         return sb.toString();

@@ -9,10 +9,10 @@ public class Shoe implements Serializable
     private int year;
     private int shoeId;
     
-    public int getUserShoesId() {
+    public int getShoeId() {
 		return shoeId;
 	}
-	public void setUserShoesId(int id) {
+	public void setShoeId(int id) {
 		this.shoeId = id;
 	}
 	
@@ -40,9 +40,13 @@ public class Shoe implements Serializable
     {
         this.year = year;
     }
+    /* 
+     * Id is ignored here.
+     */
     @Override
+    
     public String toString(){
-        return getUserShoesId() + ", " + getYear() + ", "+ getMake() + ", "+ getModel();
+        return getShoeId() + ", " + getYear() + ", "+ getMake() + ", "+ getModel();
     }
 
 }

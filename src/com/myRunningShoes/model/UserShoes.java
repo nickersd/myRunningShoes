@@ -6,7 +6,6 @@ import java.util.Date;
 public class UserShoes extends Shoe implements Serializable {
 	private int userShoesId;
 	private int user_id;
-	private int shoe_id;
 	private Date date_purchased;
 	private int miles;
 	private int is_active;
@@ -25,14 +24,6 @@ public class UserShoes extends Shoe implements Serializable {
 
 	public void setUser_id(int user_id) {
 		this.user_id = user_id;
-	}
-
-	public int getShoe_id() {
-		return shoe_id;
-	}
-
-	public void setShoe_id(int shoe_id) {
-		this.shoe_id = shoe_id;
 	}
 
 	public Date getDate_purchased() {
@@ -61,7 +52,7 @@ public class UserShoes extends Shoe implements Serializable {
 
 	@Override
 	public String toString() {
-		return getUserShoesId() + ", " + getUser_id() + ", " + getShoe_id()
+		return getUserShoesId() + ", " + getUser_id() + ", "
 				+ getDate_purchased() + ", " + getMiles();
 	}
 }

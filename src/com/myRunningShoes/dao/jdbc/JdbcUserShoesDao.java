@@ -40,7 +40,7 @@ public class JdbcUserShoesDao implements UserShoesDao, InitializingBean
     @Override
     public void saveMiles(UserShoes shoe) {
         String sql = "update user_shoes set miles = ? where user_id = ? and shoe_id = ? and id = ?;";   
-        jdbcTemplate.update(sql,  new Object[] {shoe.getMiles(), shoe.getUser_id(), shoe.getShoe_id(), shoe.getUserShoesId()  });
+        jdbcTemplate.update(sql,  new Object[] {shoe.getMiles(), shoe.getUser_id(), shoe.getShoeId(), shoe.getUserShoesId()  });
          
     }
 }

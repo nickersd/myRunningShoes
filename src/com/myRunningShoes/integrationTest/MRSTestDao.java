@@ -43,7 +43,7 @@ public class MRSTestDao
         }
 
         for(UserShoes userShoes: shoes) {
-            if (userShoes.getShoe_id() == 1) {
+            if (userShoes.getShoeId() == 1) {
                 userShoes.setMiles(userShoes.getMiles() + 10);
                 logger.info("After running 10 miles" + userShoes.getMake() + " "
                         + userShoes.getModel() + "has " + userShoes.getMiles() + " miles");
