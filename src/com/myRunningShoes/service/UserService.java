@@ -29,7 +29,7 @@ import com.myRunningShoes.dao.jdbc.JdbcUserShoesDao;
 import com.myRunningShoes.model.User;
 
 /**
- * Servlet implementation class AnimalService
+ * Main servlet 
  */
 @WebServlet("/user")
 public class UserService extends HttpServlet {
@@ -38,7 +38,7 @@ public class UserService extends HttpServlet {
 	final static Logger logger = Logger.getLogger(UserService.class);
 
 	/**
-	 * @see HttpServlet#HttpServlet()
+	 * Ctor
 	 */
 	public UserService() {
 		super();
@@ -46,8 +46,10 @@ public class UserService extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * Handle GETs. Expected URI is <url>/user?userId=<#>
+	 * 
+	 * @return void but prints json representation of user and
+	 * dynamic number of shoes
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -56,20 +58,12 @@ public class UserService extends HttpServlet {
 		User user = new User();
 		
 		Map<String, String[]> params = request.getParameterMap();
-		// String uri = request.getRequestURI();
 		if (params != null) {
 			String UserIdStrArr[] = params.get("userId");
 			if (null != UserIdStrArr && UserIdStrArr.length > 0)
 				userId = Integer.parseInt(UserIdStrArr[0]);
 		}
-		/*
-		 * try { params = URLEncodedUtils.parse(new URI(uri), "UTF-8"); } catch
-		 * (URISyntaxException e) { logger.error("bad URI format"); }
-		 * 
-		 * for (NameValuePair param : params) { if
-		 * (param.getName().equalsIgnoreCase("user")) { userId =
-		 * Integer.getInteger(param.getValue()); } }
-		 */
+
 		if (userId != 0) {
 			GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
 			ctx.load("classpath:app-context-xml.xml");
@@ -92,8 +86,7 @@ public class UserService extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * Unimplemented. 
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
