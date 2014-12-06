@@ -1,16 +1,21 @@
 package com.myRunningShoes.dao.jdbc;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import com.myRunningShoes.dao.UserShoesDao;
+import com.myRunningShoes.model.User;
 import com.myRunningShoes.model.UserShoes;
+
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 public class JdbcUserShoesDao implements UserShoesDao, InitializingBean
@@ -42,5 +47,31 @@ public class JdbcUserShoesDao implements UserShoesDao, InitializingBean
         String sql = "update user_shoes set miles = ? where user_id = ? and shoe_id = ? and id = ?;";   
         jdbcTemplate.update(sql,  new Object[] {shoe.getMiles(), shoe.getUser_id(), shoe.getShoeId(), shoe.getUserShoesId()  });
          
+    }
+    
+    @Override
+    public UserShoes getShoe(int userId, int shoeId) {
+    	String sql = "SELECT distinct us.user_id, us.id, us.shoe_id, s.make, s.model, us.miles, us.is_active from user u, shoe s, user_shoes us " +
+    			"where u.id = ? and us.id = ? and u.id = us.user_id and s.id = us.shoe_id and us.is_active = true;";
+        return jdbcTemplate.queryForObject(sql,  new Object[] { userId, shoeId }, new UserShoesMapper());
+
+    }
+    
+    private static final class UserShoesMapper implements RowMapper<UserShoes> {
+
+        public UserShoes mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+            UserShoes userShoes = new UserShoes();
+            userShoes.setUserShoesId(rs.getInt("id"));
+            userShoes.setShoeId(rs.getInt("shoe_id"));
+            userShoes.setUser_id(rs.getInt("user_id"));
+            userShoes.setMake(rs.getString("make"));
+            userShoes.setModel(rs.getString("model"));
+            userShoes.setMiles(rs.getInt("miles"));
+            userShoes.setIs_active(rs.getInt("is_active"));
+
+            return userShoes;
+        }
+        
     }
 }

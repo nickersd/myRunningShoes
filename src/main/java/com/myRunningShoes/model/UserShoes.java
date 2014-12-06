@@ -9,7 +9,8 @@ public class UserShoes extends Shoe implements Serializable {
 	private Date date_purchased;
 	private int miles;
 	private int is_active;
-
+	
+	
 	public int getUserShoesId() {
 		return userShoesId;
 	}

@@ -79,7 +79,7 @@ public class UserService extends HttpServlet {
 			}
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			String userStr = gson.toJson(user);
-			logger.debug(userStr);
+			logger.debug("returning: " + userStr);
 			PrintWriter out = response.getWriter();
 			out.println(userStr);
 		}

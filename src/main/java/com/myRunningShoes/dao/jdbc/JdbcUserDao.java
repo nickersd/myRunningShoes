@@ -92,7 +92,7 @@ public class JdbcUserDao implements UserDao, InitializingBean
             while (rs.next()) {
                 int shoeId = rs.getInt("shoe_id");
                 userShoes = map.get(shoeId);
-                if (userShoes == null) {  // new contact record
+                if (userShoes == null) {  
                     userShoes = new UserShoes();
                     userShoes.setUserShoesId(rs.getInt("id"));
                     userShoes.setShoeId(rs.getInt("shoe_id"));

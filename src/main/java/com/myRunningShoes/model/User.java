@@ -75,10 +75,6 @@ public class User implements Serializable
         this.lastName = lastName;
     }
     
- /*   @Override
-    public String toString(){
-        return getId() + ", "+ getFirstName()+" "+ getLastName();
-    }*/
     
     @Override
     public String toString(){
