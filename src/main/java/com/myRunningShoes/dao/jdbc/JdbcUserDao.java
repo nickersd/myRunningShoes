@@ -54,7 +54,7 @@ public class JdbcUserDao implements UserDao, InitializingBean
     
     @Override
     public User getUser(int user_id) {
-        String sql = "select id, first_name, last_name from user where id = :user_id";
+        String sql = "select id, first_name, last_name from USER where id = :user_id";
         SqlParameterSource namedParameters = new MapSqlParameterSource("user_id", user_id);
 
         return namedParameterJdbcTemplate.queryForObject(sql, namedParameters, new UserMapper());
@@ -75,7 +75,7 @@ public class JdbcUserDao implements UserDao, InitializingBean
     
     @Override
     public List<UserShoes> getShoes(int user_id) {
-        String sql = "select distinct us.id, us.shoe_id, us.id, us.user_id, s.make, s.model, s.year, us.miles, us.is_active from user u, shoe s, user_shoes us " +
+        String sql = "select distinct us.id, us.shoe_id, us.id, us.user_id, s.make, s.model, s.year, us.miles, us.is_active from USER u, SHOE s, USER_SHOES us " +
                 "where u.id = ? and u.id = us.user_id and s.id = us.shoe_id and us.is_active = true";
 
         return jdbcTemplate.query(sql,  new Object[] { user_id }, new UserShoesMapper());
@@ -112,7 +112,7 @@ public class JdbcUserDao implements UserDao, InitializingBean
     
     @Override
     public void insertShoe(UserShoes shoe) {
-        String sql = "insert into user_shoes (user_id, shoe_id, date_purchased, "
+        String sql = "insert into USER_SHOES (user_id, shoe_id, date_purchased, "
                 + "miles, is_active) values (?,?, ?), ?, 1);";   
         jdbcTemplate.update(sql,  new Object[] { shoe.getUser_id(), shoe.getUserShoesId(), shoe.getDate_purchased(),
                 shoe.getMiles()});
@@ -121,7 +121,7 @@ public class JdbcUserDao implements UserDao, InitializingBean
     
     @Override
     public void addMiles(UserShoes shoe) {
-        String sql = "update USER_SHOES set miles = ? from USER u, USER_shoes us " +
+        String sql = "update USER_SHOES set miles = ? from USER u, USER_SHOES us " +
     "where u.id = ? and u.id = us.user_id and us.shoe_id = ?, and us.id = ?";
         jdbcTemplate.update(sql, new Object[] { shoe.getMiles(), shoe.getUser_id(), shoe.getShoeId(),
                 shoe.getUserShoesId()});
