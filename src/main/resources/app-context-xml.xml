@@ -10,8 +10,8 @@
 	<bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/MY_RUNNING_SHOES" />
-		<property name="username" value="root" />
-		<property name="password" value="zaq1XSW2#" />
+		<property name="username" value="dnickerson" />
+		<property name="password" value="mrspass" />
 	</bean>
 
 	<bean id="UserDao" class="com.myRunningShoes.dao.jdbc.JdbcUserDao">
