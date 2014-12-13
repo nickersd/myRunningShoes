@@ -1,0 +1,51 @@
+<html ng-app>
+    <head>
+        <title>myRunningShoes login</title>
+    </head>
+    <body ng-controller='UserController'>
+        <h3>Enter user id</h3>
+        <input ng-model = userId  size="2">
+        <button ng-click='getUser(userId)'>login</button><br>
+    <div>
+        <br>
+        <h3>{{welcome}}</h3>
+        <span>{{currUser.firstName}}</span>
+        <span>{{currUser.lastName}}</span>
+    </div>
+        <div ng-repeat= 'shoe in currUserShoes'>
+            {{shoe.make}}
+            {{shoe.model}}
+            {{shoe.miles}}
+        </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.js"></script>
+    <script>
+        function UserController($scope, $http) {
+
+
+            $scope.currUser;
+            $scope.currUserShoes;
+
+            $scope.userId;
+            $scope.welcome;
+
+            $scope.getUser = function(userId) {
+
+                var responsePromise = $http.get('http://localhost:8080/myRunningShoes/user', { params: {userId: userId} });
+
+                responsePromise.success(function(data, status, headers, config) {
+
+                    $scope.currUser = data;
+                    $scope.currUserShoes = data.userShoes;
+                    $scope.welcome = "Welcome";
+
+                });
+                responsePromise.error(function(data, status, headers, config) {
+                    $scope.currUser = "";
+                    $scope.welcome = "";
+                });
+            }
+        };
+
+    </script>
+    </body>
+</html>
