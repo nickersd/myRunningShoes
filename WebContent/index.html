@@ -30,7 +30,7 @@
 
             $scope.getUser = function(userId) {
 
-                var responsePromise = $http.get('http://localhost:8080/myRunningShoes/user', { params: {userId: userId} });
+                var responsePromise = $http.get('http://ec2-54-148-67-111.us-west-2.compute.amazonaws.com/myRunningShoes/user', { params: {userId: userId} });
 
                 responsePromise.success(function(data, status, headers, config) {
 
