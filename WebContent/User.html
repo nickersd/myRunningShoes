@@ -1,0 +1,30 @@
+<html ng-app="user">
+<head>
+    <title>myRunningShoes login</title>
+</head>
+<body ng-controller='userController'>
+<h3>Enter user id</h3>
+<input ng-model = userId size="2">
+<button ng-click='getUser(userId)'>login</button><br>
+<div>
+    <br>
+    <h3>{{welcome}}</h3>
+    <span>{{currUser.firstName}}</span>
+    <span>{{currUser.lastName}}</span>
+    <br>
+</div>
+<div>
+    <ul>
+      <li  ng-repeat= 'shoe in currUserShoes'>
+        {{shoe.make}}
+        {{shoe.model}}
+        {{shoe.miles}}
+      </li>
+    </ul>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.js"></script>
+<script src="user.js"></script>
+<script src="userService.js"></script>
+</body>
+</html>
