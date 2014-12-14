@@ -7,18 +7,22 @@ userModule.controller('userController', ['$scope', 'userService', function($scop
             {firstName: 'Test3', lastName: 'Last3'}];
 
 
+
         $scope.currUser;
         $scope.currUserShoes;
-
-
         $scope.userId;
         $scope.welcome;
+        $scope.loginStatehide = false;
 
         $scope.getUser = function(userId) {
 
+            $scope.loginStatehide = true;
             userService.getUserService(userId);
-            //$scope.currUser = userService.currUser;
 
-            }
+            };
+
+        $scope.saveMiles = function (userId, shoeId, miles) {
+            userService.setMiles(userId, shoeId, miles);
+        };
 
     }]);

@@ -1,28 +1,46 @@
 <html ng-app="user">
 <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <link href="myRunningShoes.css" rel="stylesheet" type="text/css">
     <title>myRunningShoes login</title>
 </head>
 <body ng-controller='userController'>
-<h3>Enter user id</h3>
-<input ng-model = userId size="2">
-<button ng-click='getUser(userId)'>login</button><br>
+<div ng-hide='loginStatehide'>
+    <center>
+    <h3 class=”mrssytle”>Enter user id</h3>
+    <input ng-model = userId size="2">
+    <button ng-click='getUser(userId)'>login</button><br>
+    </center>
+</div>
+<center>
 <div>
     <br>
-    <h3>{{welcome}}</h3>
+    <h3 class=”mrssytle”>{{welcome}}
     <span>{{currUser.firstName}}</span>
     <span>{{currUser.lastName}}</span>
+    </h3>
     <br>
 </div>
 <div>
-    <ul>
-      <li  ng-repeat= 'shoe in currUserShoes'>
-        {{shoe.make}}
-        {{shoe.model}}
-        {{shoe.miles}}
-      </li>
-    </ul>
+    <table>
+      <tr  ng-repeat= 'shoe in currUserShoes'>
+        <td>{{shoe.year}}
+            {{shoe.make}}
+            {{shoe.model}}
+        </td>
+          <td>
+            {{shoe.miles}}
+        </td>
+          <td>
+          <input size="2">
+          <button ng-click='saveMiles(currUser.User, shoe.userShoesId, shoe.miles)'>
+              add miles</button>
+          </td>
+      </tr>
+    </table>
+    </center>
 </div>
-
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.js"></script>
 <script src="user.js"></script>
 <script src="userService.js"></script>
