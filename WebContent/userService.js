@@ -25,7 +25,7 @@ angular.module('userServiceModule', [])
 
         user.setMiles = function(userId, shoeId, miles) {
 
-            var responsePromise = $http.get('http://localhost:8080/myRunningShoes/shoe?userId=1&shoeId=1&miles=1',
+            var responsePromise = $http.get('http://localhost:8080/myRunningShoes/shoe',
                 { params: {'userId': userId, 'shoeId': shoeId, 'miles': miles } });
             responsePromise.success(function(data, status, headers, config) {
                 console.log("success saving shoe miles");

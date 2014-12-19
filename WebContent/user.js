@@ -21,8 +21,8 @@ userModule.controller('userController', ['$scope', 'userService', function($scop
 
             };
 
-        $scope.saveMiles = function (userId, shoeId, miles) {
-            userService.setMiles(userId, shoeId, miles);
+        $scope.saveMiles = function (userId, shoeId, inputMiles) {
+            userService.setMiles(userId, shoeId, inputMiles);
         };
 
     }]);

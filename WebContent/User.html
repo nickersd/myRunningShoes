@@ -33,8 +33,8 @@
             {{shoe.miles}}
         </td>
           <td>
-          <input size="2">
-          <button ng-click='saveMiles(currUser.User, shoe.userShoesId, shoe.miles)'>
+          <input size="2" ng-model = inputMiles>
+          <button ng-click='saveMiles(currUser.User, shoe.userShoesId, inputMiles)'>
               add miles</button>
           </td>
       </tr>
