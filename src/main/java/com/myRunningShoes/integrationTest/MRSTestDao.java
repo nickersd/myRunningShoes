@@ -6,10 +6,13 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.myRunningShoes.dao.ShoesDao;
 import com.myRunningShoes.dao.UserDao;
 import com.myRunningShoes.dao.UserShoesDao;
+import com.myRunningShoes.dao.jdbc.JdbcShoeDao;
 import com.myRunningShoes.dao.jdbc.JdbcUserDao;
 import com.myRunningShoes.dao.jdbc.JdbcUserShoesDao;
+import com.myRunningShoes.model.Shoe;
 import com.myRunningShoes.model.User;
 import com.myRunningShoes.model.UserShoes;
 
@@ -29,6 +32,7 @@ public class MRSTestDao
         
         UserDao userDao = ctx.getBean("UserDao", JdbcUserDao.class);
         UserShoesDao userShoesDao = ctx.getBean("UserShoesDao", JdbcUserShoesDao.class);
+        ShoesDao shoeDao = ctx.getBean("ShoesDao", JdbcShoeDao.class);
 
         User user = userDao.getUser(1);
         logger.info("User with id 1 is: " + user.getFirstName() + " " + user.getLastName());
@@ -52,6 +56,14 @@ public class MRSTestDao
                 
             }
 
+        }
+        
+        List<Shoe> shoeList = shoeDao.getAvailableShoes();
+        for(Shoe shoe: shoeList) {
+        	logger.info("Shoe make: " + shoe.getMake());
+        	logger.info("Shoe model: " + shoe.getModel());
+        	logger.info("Shoe year: " + shoe.getYear());
+        	
         }
         
         

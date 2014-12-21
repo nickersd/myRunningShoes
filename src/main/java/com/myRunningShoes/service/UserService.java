@@ -27,6 +27,7 @@ import com.myRunningShoes.dao.UserShoesDao;
 import com.myRunningShoes.dao.jdbc.JdbcUserDao;
 import com.myRunningShoes.dao.jdbc.JdbcUserShoesDao;
 import com.myRunningShoes.model.User;
+import com.myRunningShoes.util.MRSApplicationContext;
 
 /**
  * Main servlet 
@@ -46,7 +47,7 @@ public class UserService extends HttpServlet {
 	}
 
 	/**
-	 * Handle GETs. Expected URI is <url>/user?userId=<#>
+	 * Handle GETs. Expected URI is <url>/myRunningShoes/user?userId=<#>
 	 * 
 	 * @return void but prints json representation of user and
 	 * dynamic number of shoes
@@ -55,6 +56,8 @@ public class UserService extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		int userId = 0;
+		
+		//User user = MRSApplicationContext.getInstance().getBean("User", User.class);;
 		User user = new User();
 		
 		Map<String, String[]> params = request.getParameterMap();
@@ -65,11 +68,9 @@ public class UserService extends HttpServlet {
 		}
 
 		if (userId != 0) {
-			GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
-			ctx.load("classpath:app-context-xml.xml");
-			ctx.refresh();
 
-			UserDao userDao = ctx.getBean("UserDao", JdbcUserDao.class);
+
+			UserDao userDao = MRSApplicationContext.getInstance().getBean("UserDao", JdbcUserDao.class);
 
 			try {
 			user = userDao.getUser(userId);

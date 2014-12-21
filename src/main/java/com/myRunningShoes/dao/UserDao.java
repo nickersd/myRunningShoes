@@ -12,7 +12,7 @@ public interface UserDao
 
     public List<UserShoes> getShoes(int user_id);
 
-    public void insertShoe(UserShoes shoe);
+    public void insertShoe(int userId, int shoeId);
 
     public void addMiles(UserShoes shoe);
 

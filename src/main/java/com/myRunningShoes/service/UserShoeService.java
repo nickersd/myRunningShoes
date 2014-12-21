@@ -18,17 +18,18 @@ import com.myRunningShoes.dao.jdbc.JdbcUserDao;
 import com.myRunningShoes.dao.jdbc.JdbcUserShoesDao;
 import com.myRunningShoes.model.User;
 import com.myRunningShoes.model.UserShoes;
+import com.myRunningShoes.util.MRSApplicationContext;
 
 /**
  * Main servlet 
  */
-@WebServlet("/shoe")
+@WebServlet("/userShoe")
 public class UserShoeService  extends HttpServlet {
 	
 	final static Logger logger = Logger.getLogger(UserShoeService.class);
 
 	/**
-	 * Handle GETs. Expected URI is <url>/shoe?userId=<#>&shoeId=<#>&miles=<#>
+	 * Handle GETs. Expected URI is <url>/myRunningShoes/userShoe?userId=<#>&shoeId=<#>&miles=<#>
 	 * 
 	 * @return void but prints json representation of user and
 	 * dynamic number of shoes
@@ -55,12 +56,8 @@ public class UserShoeService  extends HttpServlet {
 	}
 	
 	if(userId > 0 && shoeId > 0 && miles > 0) {
-		
-		GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
-		ctx.load("classpath:app-context-xml.xml");
-		ctx.refresh();
 
-		UserShoesDao userShoeDao = ctx.getBean("UserShoesDao", JdbcUserShoesDao.class);
+		UserShoesDao userShoeDao = MRSApplicationContext.getInstance().getBean("UserShoesDao", JdbcUserShoesDao.class);
 		shoe = userShoeDao.getShoe(userId, shoeId);
 		shoe.setMiles(shoe.getMiles() + miles); 
 		try {

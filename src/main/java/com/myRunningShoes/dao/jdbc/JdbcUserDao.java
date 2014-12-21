@@ -3,6 +3,7 @@ package com.myRunningShoes.dao.jdbc;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -111,11 +112,11 @@ public class JdbcUserDao implements UserDao, InitializingBean
     }
     
     @Override
-    public void insertShoe(UserShoes shoe) {
+    public void insertShoe(int userId, int shoeId) {
         String sql = "insert into USER_SHOES (user_id, shoe_id, date_purchased, "
-                + "miles, is_active) values (?,?, ?), ?, 1);";   
-        jdbcTemplate.update(sql,  new Object[] { shoe.getUser_id(), shoe.getUserShoesId(), shoe.getDate_purchased(),
-                shoe.getMiles()});
+                + "miles, is_active) values (?,?,?,?,1);";   
+        jdbcTemplate.update(sql,  new Object[] { userId, shoeId, new Date(),
+                0});
     
     }
     

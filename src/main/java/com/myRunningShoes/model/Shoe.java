@@ -9,6 +9,15 @@ public class Shoe implements Serializable
     private int year;
     private int shoeId;
     
+    public Shoe(String make, String model, int year, int shoeId) {
+    	this.make = make;
+    	this.model = model;
+    	this.year = year;
+    	this.shoeId = shoeId;
+    }
+    
+    public Shoe() {}
+    
     public int getShoeId() {
 		return shoeId;
 	}

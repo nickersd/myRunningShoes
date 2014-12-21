@@ -44,14 +44,14 @@ public class JdbcUserShoesDao implements UserShoesDao, InitializingBean
     
     @Override
     public void saveMiles(UserShoes shoe) {
-        String sql = "update user_shoes set miles = ? where user_id = ? and shoe_id = ? and id = ?;";   
+        String sql = "update USER_SHOES set miles = ? where user_id = ? and shoe_id = ? and id = ?;";   
         jdbcTemplate.update(sql,  new Object[] {shoe.getMiles(), shoe.getUser_id(), shoe.getShoeId(), shoe.getUserShoesId()  });
          
     }
     
     @Override
     public UserShoes getShoe(int userId, int shoeId) {
-    	String sql = "SELECT distinct us.user_id, us.id, us.shoe_id, s.make, s.model, us.miles, us.is_active from user u, shoe s, user_shoes us " +
+    	String sql = "SELECT distinct us.user_id, us.id, us.shoe_id, s.make, s.model, us.miles, us.is_active from USER u, SHOE s, USER_SHOES us " +
     			"where u.id = ? and us.id = ? and u.id = us.user_id and s.id = us.shoe_id and us.is_active = true;";
         return jdbcTemplate.queryForObject(sql,  new Object[] { userId, shoeId }, new UserShoesMapper());
 

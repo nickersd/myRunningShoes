@@ -6,14 +6,12 @@
     <title>myRunningShoes login</title>
 </head>
 <body ng-controller='userController'>
+<center>
 <div ng-hide='loginStatehide'>
-    <center>
     <h3 class=”mrssytle”>Enter user id</h3>
     <input ng-model = userId size="2">
     <button ng-click='getUser(userId)'>login</button><br>
-    </center>
 </div>
-<center>
 <div>
     <br>
     <h3 class=”mrssytle”>{{welcome}}
@@ -31,18 +29,31 @@
         </td>
           <td>
             {{shoe.miles}}
-        </td>
+          </td>
           <td>
-          <input size="2">
-          <button ng-click='saveMiles(currUser.User, shoe.userShoesId, shoe.miles)'>
-              add miles</button>
+              <input size="2" ng-model = inputMiles>
+              <button ng-click='saveMiles(currUser.User, shoe.userShoesId, inputMiles)'>
+                  add miles</button>
           </td>
       </tr>
     </table>
-    </center>
 </div>
+
+    <div ng-show='ShoeButtonListShow'>
+        <button ng-click='getAllShoes()'>add shoe</button>
+    </div>
+    <div ng-show='ShoeListShow'>
+    <select ng-model="selectedItem">
+        <option ng-repeat="shoe in shoeList" value="{{shoe.shoeId}}">{{shoe.year}} {{shoe.make}} {{shoe.model}}</option>
+    </select>
+        <button ng-click='addUserShoe(currUser.User, selectedItem)'>add shoe</button>
+    </div>
+
+</center>
+
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.js"></script>
 <script src="user.js"></script>
 <script src="userService.js"></script>
+<script src="shoeService.js"></script>
 </body>
 </html>

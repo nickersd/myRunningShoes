@@ -24,4 +24,14 @@
 			<ref local="dataSource" />
 		</property>
 	</bean>
+	<bean id="ShoesDao" class="com.myRunningShoes.dao.jdbc.JdbcShoeDao">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+	</bean>
+<!-- 	<bean id="User" class="com.myRunningShoes.model.User">
+		<property name="lastName">
+			<ref local="lastName" />
+		</property>
+	</bean> -->
 </beans>

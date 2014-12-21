@@ -10,6 +10,13 @@ public class UserShoes extends Shoe implements Serializable {
 	private int miles;
 	private int is_active;
 	
+	public UserShoes() {
+		super();
+	}
+	
+	public UserShoes(int id, int userId, int year) {
+		
+	}
 	
 	public int getUserShoesId() {
 		return userShoesId;
