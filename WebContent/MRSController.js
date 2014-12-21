@@ -1,6 +1,6 @@
-var userModule = angular.module('user', ['userServiceModule', 'shoeServiceModule']);
+var userModule = angular.module('MRS', ['userServiceModule', 'shoeServiceModule']);
 
-userModule.controller('userController', ['$scope', 'userService', 'shoeService',
+userModule.controller('MRSController', ['$scope', 'userService', 'shoeService',
     function($scope, userService, shoeService)  {
         $scope.testUsers = [
             {firstName: 'Test1', lastName: 'Last1'},
