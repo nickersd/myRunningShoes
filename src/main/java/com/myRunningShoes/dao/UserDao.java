@@ -7,6 +7,8 @@ import com.myRunningShoes.model.UserShoes;
 
 public interface UserDao
 {
+	
+	public User auth (String email, String password);
 
     public User getUser(int user_id);
 

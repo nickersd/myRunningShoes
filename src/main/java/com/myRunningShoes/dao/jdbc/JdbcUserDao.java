@@ -53,6 +53,16 @@ public class JdbcUserDao implements UserDao, InitializingBean
         }
     }
     
+	@Override
+	public User auth(String email, String password) {
+
+		String sql = "select id, first_name, last_name from USER where email = ? and password = ?";
+		
+        return jdbcTemplate.queryForObject(sql,  new Object[] { email, password }, new UserMapper());
+
+	}
+
+    
     @Override
     public User getUser(int user_id) {
         String sql = "select id, first_name, last_name from USER where id = :user_id";

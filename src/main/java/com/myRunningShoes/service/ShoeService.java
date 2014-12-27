@@ -30,8 +30,6 @@ public class ShoeService extends HttpServlet {
 	/**
 	 * Handle GETs. Expected URI is <url>/myRunningShoes/shoe
 	 * 
-	 * @return void but prints json representation of user and dynamic number of
-	 *         shoes
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {

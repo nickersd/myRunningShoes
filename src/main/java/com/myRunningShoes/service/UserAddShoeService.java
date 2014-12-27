@@ -29,7 +29,6 @@ public class UserAddShoeService  extends HttpServlet {
 	/**
 	 * Handle GETs. Expected URI is <url>/myRunningShoes/userAddShoe?userId=<#>&shoeId=<#>
 	 * 
-	 * @return void but prints json representation of user and
 	 * dynamic number of shoes
 	 */
 	protected void doGet(HttpServletRequest request,

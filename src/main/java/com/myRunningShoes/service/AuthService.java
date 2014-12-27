@@ -2,9 +2,6 @@ package com.myRunningShoes.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -13,67 +10,51 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.httpclient.URIException;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.log4j.Logger;
-import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.myRunningShoes.dao.UserDao;
-import com.myRunningShoes.dao.UserShoesDao;
 import com.myRunningShoes.dao.jdbc.JdbcUserDao;
-import com.myRunningShoes.dao.jdbc.JdbcUserShoesDao;
 import com.myRunningShoes.model.User;
 import com.myRunningShoes.util.MRSApplicationContext;
 
-/**
- * Main servlet 
- */
-@WebServlet("/user")
-public class UserService extends HttpServlet {
+@WebServlet("/auth")
+public class AuthService  extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
 
-	final static Logger logger = Logger.getLogger(UserService.class);
-
-	/**
-	 * Ctor
-	 */
-	public UserService() {
-		super();
-
-	}
-
-	/**
-	 * Handle GETs. Expected URI is <url>/myRunningShoes/user?userId=<#>
-	 * 
-	 */
+	final static Logger logger = Logger.getLogger(AuthService.class);
+	
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
-		int userId = 0;
 		
-		User user = MRSApplicationContext.getInstance().getBean("User", User.class);;
+		String email = "";
+		String password = "";
+		
+		User user = MRSApplicationContext.getInstance().getBean("User", User.class);
 		
 		Map<String, String[]> params = request.getParameterMap();
 		if (params != null) {
-			String UserIdStrArr[] = params.get("userId");
-			if (null != UserIdStrArr && UserIdStrArr.length > 0)
-				userId = Integer.parseInt(UserIdStrArr[0]);
+			String emailStrArr[] = params.get("email");
+			if (null != emailStrArr && emailStrArr.length > 0)
+				email = emailStrArr[0];
+			String passwordStrArr[] = params.get("password");
+			if (null != passwordStrArr && passwordStrArr.length > 0)
+				password = passwordStrArr[0];
 		}
 
-		if (userId != 0) {
+		if (email.length() > 0 && password.length() > 0) {
 
 
 			UserDao userDao = MRSApplicationContext.getInstance().getBean("UserDao", JdbcUserDao.class);
 
 			try {
-			user = userDao.getUser(userId);
-			user.setUserShoes(userDao.getShoes(userId));
+			user = userDao.auth(email, password);
+			user.setUserShoes(userDao.getShoes(user.getId()));
 			} catch (EmptyResultDataAccessException e) {
-				user = new User(userId);
+				logger.debug("No such user " + email);
 			}
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			String userStr = gson.toJson(user);
@@ -81,13 +62,7 @@ public class UserService extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			out.println(userStr);
 		}
-	}
 
-	/**
-	 * Unimplemented. 
-	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
 	}
 
 }

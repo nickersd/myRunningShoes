@@ -3,15 +3,38 @@ package com.myRunningShoes.model;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.BeanCreationException;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Service;
+
 import com.google.gson.annotations.SerializedName;
 
-public class User implements Serializable
+@Service("User")
+public class User implements Serializable, InitializingBean 
 {
+	
+    @Autowired
+    private ApplicationContext appContext;
+    
     @SerializedName("User")
     private int id;
     private String firstName;
     private String lastName;
     private List<UserShoes> userShoes;
+    
+    
+    public void afterPropertiesSet() throws Exception {
+        if (lastName == null) {
+            throw new BeanCreationException("lastName not set for User");
+        }
+    }
     
     
     public User(int user_id, String firstName, String lastName) {
