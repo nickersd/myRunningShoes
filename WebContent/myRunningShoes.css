@@ -1,4 +1,6 @@
-.mrssytle { font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: bold; color: #0000FF; }
+.mrsstyle { font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: bold; color: #0000FF; }
+.mrserror { font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: bold; color: #FF0000; }
+
 
 body {background: rgb(52,172,247);  }
 

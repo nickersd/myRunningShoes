@@ -2,11 +2,6 @@ var userModule = angular.module('MRS', ['userServiceModule', 'shoeServiceModule'
 
 userModule.controller('MRSController', ['$scope', 'userService', 'shoeService',
     function($scope, userService, shoeService)  {
-        $scope.testUsers = [
-            {firstName: 'Test1', lastName: 'Last1'},
-            {firstName: 'Test2', lastName: 'Last2'},
-            {firstName: 'Test3', lastName: 'Last3'}];
-
 
 
         $scope.currUser;
@@ -16,19 +11,52 @@ userModule.controller('MRSController', ['$scope', 'userService', 'shoeService',
         $scope.loginStatehide = false;
         $scope.ShoeListShow = false;
         $scope.ShoeButtonListShow = false;
+        $scope.loginErrorShow = false;
         $scope.shoeList;
 
         $scope.getUser = function(userId) {
 
-            $scope.loginStatehide = true;
-            $scope.ShoeButtonListShow = true;
 
-            userService.getUserService(userId);
+           userService.getUserService(userId).then(function(data) {
+               $scope.currUser = data;
+               $scope.currUserShoes = data.userShoes;
+               $scope.loginStatehide = true;
+               $scope.ShoeButtonListShow = true;
+           }, function (error) {
+               $scope.currUser = {};
+               $scope.currUserShoes = {};
+               $scope.loginStatehide = false;
+               $scope.ShoeListShow = false;
+               $scope.ShoeButtonListShow = false;
+               $scope.loginErrorShow = true;
+
+           });
 
             };
 
+        $scope.login = function(email, password) {
+
+         userService.login(email, password).then(function(data) {
+             //$scope.currUser = data;
+             //$scope.currUserShoes = data.userShoes;
+             $scope.loginStatehide = true;
+             $scope.ShoeButtonListShow = true;
+             $scope.loginErrorShow = false;
+
+         }, function (error) {
+
+             $scope.loginStatehide = false;
+             $scope.ShoeListShow = false;
+             $scope.ShoeButtonListShow = false;
+             $scope.loginErrorShow = true;
+
+         });
+
+        };
+
         $scope.saveMiles = function (userId, shoeId, inputMiles) {
             userService.setMiles(userId, shoeId, inputMiles);
+            $scope.getUser(userId);
         };
 
     $scope.getAllShoes = function () {
@@ -40,7 +68,7 @@ userModule.controller('MRSController', ['$scope', 'userService', 'shoeService',
     $scope.addUserShoe = function (UserId, ShoeId) {
         shoeService.addUserShoe(UserId, ShoeId);
         userService.getUserService(UserId);
-        $scope.ShoeListShow = false;
+        $scope.ShoeListShow = true;
         $scope.ShoeButtonListShow = true;
     }
     }]);

@@ -53,14 +53,16 @@ public class AuthService  extends HttpServlet {
 			try {
 			user = userDao.auth(email, password);
 			user.setUserShoes(userDao.getShoes(user.getId()));
-			} catch (EmptyResultDataAccessException e) {
-				logger.debug("No such user " + email);
-			}
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			String userStr = gson.toJson(user);
 			logger.debug("returning: " + userStr);
 			PrintWriter out = response.getWriter();
 			out.println(userStr);
+			} catch (EmptyResultDataAccessException e) {
+				logger.debug("No such user " + email);
+				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			}
+
 		}
 
 	}
