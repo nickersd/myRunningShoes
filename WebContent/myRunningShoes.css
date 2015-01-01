@@ -1,7 +1,10 @@
-.mrsstyle { font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: bold; color: #0000FF; }
+.mrsstyle { font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: bold; }
+.mrsuser { font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: bold; font-size: 200%; }
 .mrserror { font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: bold; color: #FF0000; }
 
-
-body {background: rgb(52,172,247);  }
-
+body {
+    background-image: url("sunset-run-600.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 

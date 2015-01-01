@@ -28,11 +28,13 @@ angular.module('shoeServiceModule', [])
             var responsePromise = $http.get('http://localhost:8080/myRunningShoes/userAddShoe',
                 { params: {userId: userId, shoeId: shoeId} });
             responsePromise.success(function(data, status, headers, config) {
+                deferred.resolve(data);
                 console.log("Success saving shoe")
             });
             responsePromise.error(function(response, status) {
                 console.log("The request failed with response " + response + " and status code " + status);
             });
+            return deferred.promise;
         };
 
         return shoe;

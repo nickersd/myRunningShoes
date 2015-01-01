@@ -9,23 +9,25 @@
 <center>
 <div ng-hide='loginStatehide'>
     <h3 class="mrsstyle">Enter email and password (or guest/guest)</h3>
-    <input ng-model = email size="20">
-    <input ng-model = password size="20">
+    <input ng-model = email size="20"  autofocus>
+    <input ng-model = password size="20"  ng-enter='login(email, password)'>
     <button ng-click='login(email, password)'>login</button><br>
 </div>
     <div ng-show="loginErrorShow">
         <h5 class="mrserror">Login error</h5></div>
     </div>
-<div>
+<div class=”mrsuser”>
     <br>
-    <h3 class=”mrsstyle”>{{welcome}}
+    <h3 >{{welcome}} <br><br>
     <span>{{currUser.firstName}}</span>
     <span>{{currUser.lastName}}</span>
     </h3>
     <br>
 </div>
 <div>
-    <table>
+    <table border="1" ng-show=shoeTableShow>
+    <tr>
+    	<td>Shoe</td><td>miles</td>
       <tr  ng-repeat= 'shoe in currUserShoes'>
         <td>{{shoe.year}}
             {{shoe.make}}
@@ -41,6 +43,7 @@
           </td>
       </tr>
     </table>
+    <br>
 </div>
 
     <div ng-show='ShoeButtonListShow'>
@@ -59,5 +62,7 @@
 <script src="MRSController.js"></script>
 <script src="userService.js"></script>
 <script src="shoeService.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
+
 </body>
 </html>
