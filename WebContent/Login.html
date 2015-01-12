@@ -1,0 +1,16 @@
+<center>
+<div>
+    <h3 class="mrsstyle">Keep track of the mileage on your running shoes</h3>
+    <h3 class="mrsstyle">Enter email and password (or guest/guest)</h3>
+    <input class="input-box" ng-model = email size="20"  autofocus>
+    <input class="input-box" ng-model = password size="20"  ng-enter='login(email, password)'>
+    <button ng-click='login(email, password)'>login</button><br><br> 
+    </div>   
+    
+    <div ng-show="loginErrorShow">
+        <h5 class="mrserror">Login error</h5></div>
+    </div>
+    
+</center>
+    
+   

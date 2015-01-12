@@ -1,11 +1,12 @@
 var userModule = angular.module('MRS', [ 'userServiceModule',
-		'shoeServiceModule' ]);
+		'shoeServiceModule', 'ngRoute' ]);
 
 userModule.controller('MRSController', [
 		'$scope',
+		'$location',
 		'userService',
 		'shoeService',
-		function($scope, userService, shoeService) {
+		function($scope, $location, userService, shoeService) {
 
 			$scope.currUser;
 			$scope.currUserShoes;
@@ -15,8 +16,12 @@ userModule.controller('MRSController', [
 			$scope.ShoeListShow = false;
 			$scope.ShoeButtonListShow = false;
 			$scope.loginErrorShow = false;
+			$scope.indexStateHide = false;
 			$scope.shoeList;
 			$scope.shoeTableShow = false;
+			$scope.newUser;
+
+
 
 			$scope.getUser = function(userId) {
 
@@ -51,10 +56,9 @@ userModule.controller('MRSController', [
 					padding : CryptoJS.pad.Pkcs7
 				});
 
-				//debugging
-				console.log('encrypted: ' + encrypted.toString());
-
-				/*
+				/* TODO: this should have been done by unit test
+				 * console.log('encrypted: ' + encrypted.toString());
+				 *
 				 * var decrypted = CryptoJS.AES.decrypt( encrypted.toString(),
 				 * key, { iv: iv, mode: CryptoJS.mode.CBC, padding:
 				 * CryptoJS.pad.Pkcs7 } ); console.log('decrypted, by hand:
@@ -70,6 +74,7 @@ userModule.controller('MRSController', [
 							$scope.ShoeButtonListShow = true;
 							$scope.loginErrorShow = false;
 							$scope.shoeTableShow = true;
+							$location.path('/userView');
 						}, function(error) {
 
 							$scope.loginStatehide = false;
@@ -95,7 +100,11 @@ userModule.controller('MRSController', [
 			$scope.getAllShoes = function() {
 				$scope.ShoeListShow = true;
 				$scope.ShoeButtonListShow = false;
-				shoeService.getAllShoes();
+				shoeService.getAllShoes().then(function(data) {
+					$scope.shoeList = data;
+				}, function(error) {
+					console.log("Error getting shoe list");
+				});
 			};
 
 			$scope.addUserShoe = function(UserId, ShoeId) {
@@ -109,7 +118,51 @@ userModule.controller('MRSController', [
 				});
 
 			};
+
+			$scope.addNewUser = function(firstName, lastName, email, password) {
+				userService.addUser(firstName, lastName, email, password).then(function(data) {
+
+					console.log("Adding user");
+				}, function(error) {
+					console.log("Error adding user");
+				});
+
+			};
+
 		} ]);
+
+
+
+
+
+
+
+
+
+
+userModule.config(['$routeProvider',
+    function($routeProvider, $scope) {
+        $routeProvider.
+            when('/register', {
+                templateUrl: 'Register.html',
+                controller: 'MRSController'
+            }).
+            when('/userView', {
+            	templateUrl: 'User.html',
+            	controller: 'MRSController'
+            }).
+			when('/login', {
+				templateUrl: 'Login.html',
+				controller: 'MRSController'
+            }).
+			when('/loginChoice', {
+				templateUrl: 'LoginChoice.html',
+				controller: 'MRSController'
+			}).
+			otherwise( {
+				redirectTo: '/loginChoice'
+			})
+    }]);
 
 userModule.directive('ngEnter', function() {
 	return function(scope, element, attrs) {

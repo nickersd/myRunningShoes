@@ -8,3 +8,25 @@ body {
     background-size: cover;
 }
 
+form {
+    text-align: center;
+    vertical-align: middle;
+width:250px;
+}
+
+input.input-box, textarea { background: #F7A17C; }
+
+#child {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 90px;
+}
+
+.container {
+    width: 500px;
+    clear: both;
+}
+.container input {
+    width: 100%;
+    clear: both;
+}
