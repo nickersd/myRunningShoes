@@ -19,5 +19,8 @@ public interface UserDao
     public void addMiles(UserShoes shoe);
 
     public void deleteShoe(UserShoes shoe);
+    
+    public User addUser(String firstName, String lastName, String email, 
+    		String password);
 
 }

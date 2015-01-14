@@ -23,6 +23,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 import com.myRunningShoes.dao.UserDao;
+import com.myRunningShoes.model.Shoe;
 import com.myRunningShoes.model.User;
 import com.myRunningShoes.model.UserShoes;
 
@@ -144,5 +145,34 @@ public class JdbcUserDao implements UserDao, InitializingBean
         
         jdbcTemplate.update(sql, new Object[] {shoe.getUser_id(), shoe.getUserShoesId()});
         
+    }
+    
+    @Override
+    public User addUser(String firstName, String lastName, String emailStr, String password) {
+    	String sql = "insert into USER (first_name, last_name, email, password) values (?,?,?,?)";
+        jdbcTemplate.update(sql, new Object[] {firstName, lastName, emailStr, password});
+        
+        String getId = "select id from USER where first_name = ? and last_name = ? " +
+        "and email = ? and password = ?";
+        
+        List<Integer> userIdList = jdbcTemplate.query(getId,  new Object[] { firstName, lastName, emailStr, password }, 
+        		new IdMapper());
+        return getUser(userIdList.get(0).intValue());
+
+    }
+    
+    private static final class IdMapper implements ResultSetExtractor<List<Integer>> {
+
+        public List<Integer> extractData(ResultSet rs) throws SQLException,
+                DataAccessException {
+            
+            List<Integer> userIds = new ArrayList();
+            
+            while (rs.next()) {
+            	userIds.add(rs.getInt("id"));
+            }
+            
+    return userIds;
+        }
     }
 }
