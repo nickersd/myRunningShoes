@@ -12,13 +12,10 @@ userModule.controller('MRSController', [
 			$scope.currUserShoes;
 			$scope.userId;
 			$scope.welcome;
-			$scope.loginStatehide = false;
-			$scope.ShoeListShow = false;
-			$scope.ShoeButtonListShow = false;
+			$scope.loginStatehide = false;;
 			$scope.loginErrorShow = false;
 			$scope.indexStateHide = false;
 			$scope.shoeList;
-			$scope.shoeTableShow = false;
 			$scope.newUser;
 
 
@@ -29,14 +26,13 @@ userModule.controller('MRSController', [
 					$scope.currUser = data;
 					$scope.currUserShoes = data.userShoes;
 					$scope.loginStatehide = true;
-					$scope.ShoeButtonListShow = true;
-					
+
+					$scope.getAllShoes();
+
 				}, function(error) {
 					$scope.currUser = {};
 					$scope.currUserShoes = {};
 					$scope.loginStatehide = false;
-					$scope.ShoeListShow = false;
-					$scope.ShoeButtonListShow = false;
 					$scope.loginErrorShow = true;
 
 				});
@@ -44,42 +40,19 @@ userModule.controller('MRSController', [
 			};
 
 			$scope.login = function(email, password) {
-				// AES 256 bit encrypt the password. It'll be stored that
-				// way in the DB and get compared that way
-				var key = CryptoJS.enc.Hex
-						.parse('36ebe205bcdfc499a25e6923f4450fa8');
-				var iv = CryptoJS.enc.Hex
-						.parse('be410fea41df7162a679875ec131cf2c');
-				var encrypted = CryptoJS.AES.encrypt(password, key, {
-					iv : iv,
-					mode : CryptoJS.mode.CBC,
-					padding : CryptoJS.pad.Pkcs7
-				});
 
-				/* TODO: this should have been done by unit test
-				 * console.log('encrypted: ' + encrypted.toString());
-				 *
-				 * var decrypted = CryptoJS.AES.decrypt( encrypted.toString(),
-				 * key, { iv: iv, mode: CryptoJS.mode.CBC, padding:
-				 * CryptoJS.pad.Pkcs7 } ); console.log('decrypted, by hand:
-				 * '+decrypted.toString(CryptoJS.enc.Utf8));
-				 */
 
-				userService.login(email, encrypted.toString()).then(
+				userService.login(email, $scope.encrypt(password)).then(
 						function(data) {
 							$scope.welcome = "Welcome";
 							$scope.currUser = data;
 							$scope.currUserShoes = data.userShoes;
 							$scope.loginStatehide = true;
-							$scope.ShoeButtonListShow = true;
 							$scope.loginErrorShow = false;
-							$scope.shoeTableShow = true;
 							$location.path('/userView');
+							$scope.getAllShoes();
 						}, function(error) {
-
 							$scope.loginStatehide = false;
-							$scope.ShoeListShow = false;
-							$scope.ShoeButtonListShow = false;
 							$scope.loginErrorShow = true;
 
 						});
@@ -98,8 +71,6 @@ userModule.controller('MRSController', [
 			};
 
 			$scope.getAllShoes = function() {
-				$scope.ShoeListShow = true;
-				$scope.ShoeButtonListShow = false;
 				shoeService.getAllShoes().then(function(data) {
 					$scope.shoeList = data;
 				}, function(error) {
@@ -109,8 +80,7 @@ userModule.controller('MRSController', [
 
 			$scope.addUserShoe = function(UserId, ShoeId) {
 				shoeService.addUserShoe(UserId, ShoeId).then(function(data) {
-					$scope.ShoeListShow = true;
-					$scope.ShoeButtonListShow = true;
+
 					$scope.getUser(UserId);
 
 				}, function(error) {
@@ -120,24 +90,41 @@ userModule.controller('MRSController', [
 			};
 
 			$scope.addNewUser = function(firstName, lastName, email, password) {
-				userService.addUser(firstName, lastName, email, password).then(function(data) {
-
-					console.log("Adding user");
+				userService.addUser(firstName, lastName, email, $scope.encrypt(password)).then(function(data) {
+				$scope.currUser = data;
+					console.log("Added user");
+					$location.path('/userView');
+					$scope.getAllShoes();
 				}, function(error) {
 					console.log("Error adding user");
 				});
 
 			};
 
+			$scope.encrypt = function(unencryptedStr) {
+				// AES 256 bit encrypt the password. It'll be stored that
+				// way in the DB and get compared that way
+				var key = CryptoJS.enc.Hex
+					.parse('36ebe205bcdfc499a25e6923f4450fa8');
+				var iv = CryptoJS.enc.Hex
+					.parse('be410fea41df7162a679875ec131cf2c');
+				var encrypted = CryptoJS.AES.encrypt(unencryptedStr, key, {
+					iv : iv,
+					mode : CryptoJS.mode.CBC,
+					padding : CryptoJS.pad.Pkcs7
+				});
+
+				/* TODO: this should have been done by unit test
+				 * console.log('encrypted: ' + encrypted.toString());
+				 * var decrypted = CryptoJS.AES.decrypt( encrypted.toString(),
+				 * key, { iv: iv, mode: CryptoJS.mode.CBC, padding:
+				 *CryptoJS.pad.Pkcs7 } ); console.log('decrypted, by hand:'+decrypted.toString(CryptoJS.enc.Utf8));
+				*/
+
+				return encrypted.toString();
+			};
+
 		} ]);
-
-
-
-
-
-
-
-
 
 
 userModule.config(['$routeProvider',

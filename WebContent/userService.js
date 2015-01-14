@@ -5,6 +5,10 @@ angular.module('userServiceModule', [])
         var user = {};
         var errorUser = {firstName: 'Test1', lastName: 'Last1'};
 
+        user.setIndexStateHide = function() {
+            $rootScope.indexStateHide = true;
+        };
+
         user.getUserService = function(userId) {
 
             var deferred = $q.defer();
@@ -43,6 +47,7 @@ angular.module('userServiceModule', [])
                 console.log("The request failed with response " + response + " and status code " + status);
                     $rootScope.currUser = {};
                     $rootScope.currUserShoes = {};
+                    $rootScope.loginErrorShow = true;
 
             });
             return deferred.promise;
@@ -61,6 +66,24 @@ angular.module('userServiceModule', [])
             });
             responsePromise.error(function(response, status) {
                 console.log("The request failed with response " + response + " and status code " + status);
+            });
+            return deferred.promise;
+        };
+
+        user.addUser = function (firstName, lastName, email, password) {
+            var deferred = $q.defer();
+            console.log(password);
+
+            var responsePromise = $http.get('http://localhost:8080/myRunningShoes/newUser',
+                { params: {'firstName': firstName, 'lastName': lastName, 'email': email,
+                'password': password} });
+            responsePromise.success(function(data, status, headers, config) {
+                console.log("success adding new user");
+                deferred.resolve(data);
+                $rootScope.currUser = data;
+            });
+            responsePromise.error(function(response, status) {
+                console.log("Adding new user request failed with response " + response + " and status code " + status);
             });
             return deferred.promise;
         };

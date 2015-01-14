@@ -1,42 +1,44 @@
-
 <center>
 
-	<div class=”mrsuser”>
-		<br>
-		<h3>
-			{{welcome}} <br>
-			<br> <span>{{currUser.firstName}}</span> <span>{{currUser.lastName}}</span>
-		</h3>
-		<br>
-	</div>
-	<div>
-		<table border="1">
-			<tr>
-				<td>Shoe</td>
-				<td>miles</td>
-			<tr ng-repeat='shoe in currUserShoes'>
-				<td>{{shoe.year}} {{shoe.make}} {{shoe.model}}</td>
-				<td>{{shoe.miles}}</td>
-				<td><input class="input-box" size="2" ng-model=inputMiles>
-					<button
-						ng-click='saveMiles(currUser.User, shoe.userShoesId, inputMiles)'>
-						add miles</button></td>
-			</tr>
-		</table>
-		<br>
-	</div>
+    <div class=”mrsuser”>
+        <br>
 
-	<div ng-show='ShoeButtonListShow'>
-		<button ng-click='getAllShoes()'>add shoe</button>
-	</div>
-	<div ng-show='ShoeListShow'>
-		<select ng-model="selectedItem">
-			<option ng-repeat="shoe in shoeList" value="{{shoe.shoeId}}">{{shoe.year}}
-				{{shoe.make}} {{shoe.model}}</option>
-		</select>
-		<button ng-click='addUserShoe(currUser.User, selectedItem)'>add
-			shoe</button>
-	</div>
+        <h3>
+            {{welcome}} <br>
+            <br> <span>{{currUser.firstName}}</span> <span>{{currUser.lastName}}</span>
+        </h3>
+        <br>
+    </div>
+    <div ng-show="currUserShoes">
+        <table border="1">
+            <tr>
+                <td>Shoe</td>
+                <td>miles</td>
+            <tr ng-repeat='shoe in currUserShoes'>
+                <td>{{shoe.year}} {{shoe.make}} {{shoe.model}}</td>
+                <td>{{shoe.miles}}</td>
+                <td><input class="input-box" size="2" ng-model=inputMiles>
+                    <button
+                            ng-click='saveMiles(currUser.User, shoe.userShoesId, inputMiles)'>
+                        add miles
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <br>
+    </div>
+
+
+    <div>
+        <select ng-model="selectedItem">
+            <option ng-repeat="shoe in shoeList" value="{{shoe.shoeId}}">{{shoe.year}}
+                {{shoe.make}} {{shoe.model}}
+            </option>
+        </select>
+        <button ng-click='addUserShoe(currUser.User, selectedItem)'>add
+            shoe
+        </button>
+    </div>
 
 </center>
 

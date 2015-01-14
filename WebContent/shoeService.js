@@ -12,12 +12,12 @@ angular.module('shoeServiceModule', [])
             responsePromise.success(function(data, status, headers, config) {
                 shoeList = data;
                 $rootScope.shoeList = shoeList;
-                // deferred.resolve(currUser);
-                //return deferred.promise;
+                deferred.resolve(shoeList);
             });
             responsePromise.error(function(response, status) {
                 console.log("The request failed with response " + response + " and status code " + status);
             });
+            return deferred.promise;
 
         };
 

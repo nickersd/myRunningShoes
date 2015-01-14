@@ -7,11 +7,11 @@
 	email<br> <input class="input-box"
 		ng-model=newUser.email size="20"><br><br>
 	password<input
-		class="input-box" ng-model=password size="20"
-		ng-enter='register(newUser.firstName, newUser.lastName,
+		class="input-box" ng-model=newUser.password size="20"
+		ng-enter='addNewUser(newUser.firstName, newUser.lastName,
     newUser.email, newUser.password)'>
 	<button
-		ng-click='register(newUser.firstName, newUser.lastName,
+		ng-click='addNewUser(newUser.firstName, newUser.lastName,
     
     newUser.email, newUser.password)'>Register</button>
 </form>
