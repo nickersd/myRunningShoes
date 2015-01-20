@@ -34,7 +34,8 @@ angular.module('userServiceModule', [])
             var deferred = $q.defer();
 
             var responsePromise = $http.get('http://localhost:8080/myRunningShoes/auth', { params: {'email': email,
-            'password': password} });
+           'password': password} });
+            
             responsePromise.success(function(data, status, headers, config) {
                 currUser = data;
                 $rootScope.currUser = currUser;
@@ -50,7 +51,7 @@ angular.module('userServiceModule', [])
                     $rootScope.loginErrorShow = true;
 
             });
-            return deferred.promise;
+            return deferred.promise; 
         };
 
         user.setMiles = function(userId, shoeId, miles) {

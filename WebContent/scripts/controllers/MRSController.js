@@ -12,8 +12,8 @@ userModule.controller('MRSController', [
 			$scope.currUserShoes;
 			$scope.userId;
 			$scope.welcome;
-			$scope.loginStatehide = false;;
-			$scope.loginErrorShow = false;
+			$scope.loginStatehide = false;
+			//$scope.loginErrorShow = false;
 			$scope.indexStateHide = false;
 			$scope.shoeList;
 			$scope.newUser;
@@ -42,20 +42,19 @@ userModule.controller('MRSController', [
 			$scope.login = function(email, password) {
 
 
-				userService.login(email, $scope.encrypt(password)).then(
-						function(data) {
+			userService.login(email, $scope.encrypt(password)).then(
+						function(payload) {
 							$scope.welcome = "Welcome";
-							$scope.currUser = data;
-							$scope.currUserShoes = data.userShoes;
 							$scope.loginStatehide = true;
 							$scope.loginErrorShow = false;
-							$location.path('/userView');
 							$scope.getAllShoes();
+							$location.path('/userView');
 						}, function(error) {
 							$scope.loginStatehide = false;
 							$scope.loginErrorShow = true;
 
 						});
+
 
 			};
 
