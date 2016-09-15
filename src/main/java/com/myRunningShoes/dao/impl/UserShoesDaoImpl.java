@@ -1,4 +1,4 @@
-package com.myRunningShoes.dao.jdbc;
+package com.myRunningShoes.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,13 +12,11 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import com.myRunningShoes.dao.UserShoesDao;
-import com.myRunningShoes.model.User;
 import com.myRunningShoes.model.UserShoes;
+import org.springframework.stereotype.Repository;
 
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-
-public class JdbcUserShoesDao implements UserShoesDao, InitializingBean
+@Repository
+public class UserShoesDaoImpl implements UserShoesDao, InitializingBean
 {
     private JdbcTemplate jdbcTemplate;
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;

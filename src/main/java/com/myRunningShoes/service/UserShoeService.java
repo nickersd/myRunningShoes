@@ -10,15 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.myRunningShoes.dao.UserDao;
 import com.myRunningShoes.dao.UserShoesDao;
-import com.myRunningShoes.dao.jdbc.JdbcUserDao;
-import com.myRunningShoes.dao.jdbc.JdbcUserShoesDao;
-import com.myRunningShoes.model.User;
 import com.myRunningShoes.model.UserShoes;
-import com.myRunningShoes.util.MRSApplicationContext;
 
 /**
  * Main servlet 
@@ -27,6 +22,9 @@ import com.myRunningShoes.util.MRSApplicationContext;
 public class UserShoeService  extends HttpServlet {
 	
 	final static Logger logger = Logger.getLogger(UserShoeService.class);
+
+	@Autowired
+	private UserShoesDao userShoeDao;
 
 	/**
 	 * Handle GETs. Expected URI is <url>/myRunningShoes/userShoe?userId=<#>&shoeId=<#>&miles=<#>
@@ -39,8 +37,7 @@ public class UserShoeService  extends HttpServlet {
 	int userId = 0;
 	int shoeId = 0;
 	int miles = 0;
-	User user = null;
-	UserShoes shoe = null;
+	UserShoes shoe;
 	
 	Map<String, String[]> params = request.getParameterMap();
 	if (params != null) {
@@ -57,7 +54,6 @@ public class UserShoeService  extends HttpServlet {
 	
 	if(userId > 0 && shoeId > 0 && miles > 0) {
 
-		UserShoesDao userShoeDao = MRSApplicationContext.getInstance().getBean("UserShoesDao", JdbcUserShoesDao.class);
 		shoe = userShoeDao.getShoe(userId, shoeId);
 		shoe.setMiles(shoe.getMiles() + miles); 
 		try {

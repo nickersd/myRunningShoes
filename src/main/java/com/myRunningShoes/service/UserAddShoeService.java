@@ -12,15 +12,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.myRunningShoes.dao.UserDao;
-import com.myRunningShoes.dao.jdbc.JdbcUserDao;
-import com.myRunningShoes.model.Shoe;
-import com.myRunningShoes.util.MRSApplicationContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 @WebServlet("/userAddShoe")
 public class UserAddShoeService  extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	final static Logger logger = Logger.getLogger(UserAddShoeService.class);
+
+	@Autowired
+	private UserDao userDao;
 	
 	public UserAddShoeService() {
 		super();
@@ -35,22 +37,19 @@ public class UserAddShoeService  extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		int userId = 0;
 		int shoeId = 0;
-		int shoeYear = 0;
-		
+
 		Map<String, String[]> params = request.getParameterMap();
 		if (params != null) {
 			String UserIdStrArr[] = params.get("userId");
 			if (null != UserIdStrArr && UserIdStrArr.length > 0)
 				userId = Integer.parseInt(UserIdStrArr[0]);
-			String shoeIdArr[] = params.get("shoeId");
+				String shoeIdArr[] = params.get("shoeId");
 			if(null != shoeIdArr && shoeIdArr.length > 0)
 				shoeId = Integer.parseInt(shoeIdArr[0]);
 
 		}
 		
 		if (userId != 0 && shoeId != 0) {
-			
-			UserDao userDao = MRSApplicationContext.getInstance().getBean("UserDao", JdbcUserDao.class);
 			userDao.insertShoe(userId, shoeId);
 			
 		}

@@ -15,16 +15,17 @@ import org.apache.log4j.Logger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.myRunningShoes.dao.UserDao;
-import com.myRunningShoes.dao.jdbc.JdbcUserDao;
 import com.myRunningShoes.model.User;
-import com.myRunningShoes.util.MRSApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @WebServlet("/newUser")
 public class NewUserService  extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	final static Logger logger = Logger.getLogger(NewUserService.class);
-	
+
+	@Autowired
+	private UserDao userDao;
 	/**
 	 * Handle GETs. Expected URI is <url>/myRunningShoes/newUser?firstName=<string>&lastName=<string>&email=<string>&password=<string>
 	 * 
@@ -55,7 +56,6 @@ public class NewUserService  extends HttpServlet {
 		
 		if(firstName != null && lastName != null && email != null && password != null) {
 			
-			UserDao userDao = MRSApplicationContext.getInstance().getBean("UserDao", JdbcUserDao.class);
 			User user = userDao.addUser(firstName, lastName, email, password);
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			String userStr = gson.toJson(user);

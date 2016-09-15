@@ -13,21 +13,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.httpclient.URIException;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.log4j.Logger;
-import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.myRunningShoes.dao.UserDao;
-import com.myRunningShoes.dao.UserShoesDao;
-import com.myRunningShoes.dao.jdbc.JdbcUserDao;
-import com.myRunningShoes.dao.jdbc.JdbcUserShoesDao;
 import com.myRunningShoes.model.User;
-import com.myRunningShoes.util.MRSApplicationContext;
 
 /**
  * Main servlet 
@@ -38,13 +31,12 @@ public class UserService extends HttpServlet {
 
 	final static Logger logger = Logger.getLogger(UserService.class);
 
-	/**
-	 * Ctor
-	 */
-	public UserService() {
-		super();
+	@Autowired
+	private User user;
 
-	}
+	@Autowired
+	private UserDao userDao;
+
 
 	/**
 	 * Handle GETs. Expected URI is <url>/myRunningShoes/user?userId=<#>
@@ -54,9 +46,7 @@ public class UserService extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		int userId = 0;
-		
-		User user = MRSApplicationContext.getInstance().getBean("User", User.class);;
-		
+
 		Map<String, String[]> params = request.getParameterMap();
 		if (params != null) {
 			String UserIdStrArr[] = params.get("userId");
@@ -65,9 +55,6 @@ public class UserService extends HttpServlet {
 		}
 
 		if (userId != 0) {
-
-
-			UserDao userDao = MRSApplicationContext.getInstance().getBean("UserDao", JdbcUserDao.class);
 
 			try {
 			user = userDao.getUser(userId);

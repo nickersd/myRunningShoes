@@ -11,14 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.myRunningShoes.dao.UserDao;
-import com.myRunningShoes.dao.jdbc.JdbcUserDao;
 import com.myRunningShoes.model.User;
-import com.myRunningShoes.util.MRSApplicationContext;
 
 @WebServlet("/auth")
 public class AuthService  extends HttpServlet {
@@ -26,15 +25,19 @@ public class AuthService  extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	final static Logger logger = Logger.getLogger(AuthService.class);
+
+	@Autowired
+	private User user;
+
+	@Autowired
+	private UserDao userDao;
 	
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
 		String email = "";
 		String password = "";
-		
-		User user = MRSApplicationContext.getInstance().getBean("User", User.class);
-		
+
 		Map<String, String[]> params = request.getParameterMap();
 		if (params != null) {
 			String emailStrArr[] = params.get("email");
@@ -46,9 +49,6 @@ public class AuthService  extends HttpServlet {
 		}
 
 		if (email.length() > 0 && password.length() > 0) {
-
-
-			UserDao userDao = MRSApplicationContext.getInstance().getBean("UserDao", JdbcUserDao.class);
 
 			try {
 			user = userDao.auth(email, password);

@@ -19,9 +19,7 @@ import com.google.gson.annotations.SerializedName;
 @Service("User")
 public class User implements Serializable, InitializingBean 
 {
-	
-    @Autowired
-    private ApplicationContext appContext;
+
     
     @SerializedName("User")
     private int id;

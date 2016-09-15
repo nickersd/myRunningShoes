@@ -1,4 +1,4 @@
-package com.myRunningShoes.dao.jdbc;
+package com.myRunningShoes.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,8 +12,6 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -23,18 +21,15 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 import com.myRunningShoes.dao.UserDao;
-import com.myRunningShoes.model.Shoe;
 import com.myRunningShoes.model.User;
 import com.myRunningShoes.model.UserShoes;
+import org.springframework.stereotype.Repository;
 
-
-
-public class JdbcUserDao implements UserDao, InitializingBean 
+@Repository
+public class UserDaoImpl implements UserDao, InitializingBean
 {
     private JdbcTemplate jdbcTemplate;
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-    @Autowired
-    private ApplicationContext appContext;
     
     private DataSource dataSource;
 

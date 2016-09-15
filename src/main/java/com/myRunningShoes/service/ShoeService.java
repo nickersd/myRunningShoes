@@ -12,20 +12,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.myRunningShoes.dao.ShoesDao;
-import com.myRunningShoes.dao.jdbc.JdbcShoeDao;
 import com.myRunningShoes.model.Shoe;
-import com.myRunningShoes.util.MRSApplicationContext;
 
 @WebServlet("/shoe")
 public class ShoeService extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	final static Logger logger = Logger.getLogger(ShoeService.class);
+
+	@Autowired
+	private ShoesDao shoesDao;
 
 	/**
 	 * Handle GETs. Expected URI is <url>/myRunningShoes/shoe
@@ -36,7 +38,6 @@ public class ShoeService extends HttpServlet {
 
 		List<Shoe> shoeList = new ArrayList<Shoe>();
 
-		ShoesDao shoesDao = MRSApplicationContext.getInstance().getBean("ShoesDao", JdbcShoeDao.class);
 		try {
 			shoeList = shoesDao.getAvailableShoes();
 		} catch (EmptyResultDataAccessException e) {

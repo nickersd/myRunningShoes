@@ -1,11 +1,9 @@
-package com.myRunningShoes.dao.jdbc;
+package com.myRunningShoes.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -17,8 +15,10 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 
 import com.myRunningShoes.dao.ShoesDao;
 import com.myRunningShoes.model.Shoe;
+import org.springframework.stereotype.Repository;
 
-public class JdbcShoeDao implements ShoesDao, InitializingBean {
+@Repository
+public class ShoeDaoImpl implements ShoesDao, InitializingBean {
 
 	private JdbcTemplate jdbcTemplate;
 
